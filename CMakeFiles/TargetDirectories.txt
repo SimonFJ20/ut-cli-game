@@ -1,3 +1,0 @@
-/home/simon/Workspace/otcli-cpp/build/CMakeFiles/otcli.dir
-/home/simon/Workspace/otcli-cpp/build/CMakeFiles/edit_cache.dir
-/home/simon/Workspace/otcli-cpp/build/CMakeFiles/rebuild_cache.dir
