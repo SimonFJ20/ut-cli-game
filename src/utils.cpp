@@ -3,7 +3,9 @@
 #include <map>
 #include <string>
 #include <vector>
+#include "actions.h"
 #include "fail_errors.h"
+#include "locations.h"
 
 std::string ask(std::string prompt)
 {
@@ -29,10 +31,13 @@ std::string command_list(std::map<std::string, T> commands)
     return result;
 }
 
-template<typename T>
-T find_command_id(std::map<std::string, T> &commands, std::string &input)
-{
-    for (auto const &pair : commands)
-        if (pair.first == input)
-            return pair.second;
-}
+template<Actions T> std::string command_list(std::map<std::string, Actions>);
+template<Locations T> std::string command_list(std::map<std::string, Locations>);
+
+// template<typename T>
+// T find_command_id(std::map<std::string, T> &commands, std::string &input)
+// {
+//     for (auto const &pair : commands)
+//         if (pair.first == input)
+//             return pair.second;
+// }

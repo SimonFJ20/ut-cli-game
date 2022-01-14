@@ -1,6 +1,8 @@
 #include "actions.h"
 #include <iostream>
 #include <map>
+#include <experimental/optional>
+#include <vector>
 #include "fail_errors.h"
 #include "utils.h"
 
@@ -15,6 +17,30 @@ void print_ask_for_action_help_message()
         "sell children: sells all current children\n";
 }
 
+// template<typename T>
+// std::string command_list(std::map<std::string, T> commands)
+// {
+//     std::vector<std::string> names{};
+//     for (auto const &c : commands)
+//         names.push_back(c.first);
+//     std::string result{};
+//     for (auto const &n : names)
+//     {
+//         if (result.size() != 0)
+//             result.append(", ");
+//         result.append(n);
+//     }
+//     return result;
+// }
+
+std::experimental::optional<Actions> find_action_id(std::map<std::string, Actions> &commands, std::string &input)
+{
+    for (auto const &pair : commands)
+        if (pair.first == input)
+            return pair.second;
+    return std::experimental::nullopt;
+}
+
 Actions ask_action()
 {
     std::map<std::string, Actions> commands{
@@ -27,7 +53,8 @@ Actions ask_action()
     std::string input = ask("What do you want to do? ");
     if (input == "opts")
     {
-        std::cout << command_list(commands) << '\n';
+        std::string cs = command_list<Actions>(commands);
+        std::cout << cs << '\n';
         return ask_action();
     }
     else if (input == "help")
@@ -36,7 +63,11 @@ Actions ask_action()
         return ask_action();
     }
     else
-        return find_command_id(commands, input);
+    {
+        std::experimental::optional<Actions> a = find_action_id(commands, input);
+        if (a) return *a;
+    }
+    return ACTION_SLEEP;
 }
 
 void do_action_sleep(Context &ctx)
@@ -69,7 +100,7 @@ void do_action(Context &ctx, Actions action)
     switch (action)
     {
         case ACTION_SLEEP:
-            return do_sleep_action(ctx);
+            return do_action_sleep(ctx);
         case ACTION_GO_TO:
         case ACTION_SHOW_VAN:
         case ACTION_SELL_CHILDREN:

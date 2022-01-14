@@ -1,8 +1,18 @@
 #include "locations.h"
 #include "utils.h"
+#include <experimental/optional>
 #include <iostream>
 #include <map>
 #include <string>
+#include <vector>
+
+std::experimental::optional<Locations> find_location_id(std::map<std::string, Locations> &commands, std::string &input)
+{
+    for (auto const &pair : commands)
+        if (pair.first == input)
+            return pair.second;
+    return std::experimental::nullopt;
+}
 
 Locations ask_location()
 {
@@ -14,7 +24,8 @@ Locations ask_location()
     std::string input = ask("What do you want to do? ");
     if (input == "opts")
     {
-        std::cout << command_list(commands) << '\n';
+        // std::string cs = command_list<Locations>(commands);
+        // std::cout << cs << '\n';
         return ask_location();
     }
     else if (input == "help")
@@ -22,5 +33,9 @@ Locations ask_location()
         return ask_location();
     }
     else
-        return find_command_id(commands, input);
+    {
+        auto a = find_location_id(commands, input);
+        if (a) return *a;
+    }
+    return LOCATION_HOME;
 }

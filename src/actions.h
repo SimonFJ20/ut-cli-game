@@ -15,10 +15,10 @@ void print_ask_for_action_help_message();
 
 Actions ask_action();
 
-void do_sleep_action(Context &ctx);
-void do_go_to_action(Context &ctx);
-void do_show_van_action(Context &ctx);
-void do_sell_children_action(Context &ctx);
-void do_get_children_action(Context &ctx);
+void do_action_sleep(Context &ctx);
+void do_action_go_to(Context &ctx);
+void do_action_show_van(Context &ctx);
+void do_action_sell_children(Context &ctx);
+void do_action_get_children(Context &ctx);
 void do_action(Context &ctx, Actions action);
 
